@@ -1,167 +1,175 @@
-"""Модуль для работы с файлами JSON и XML."""
-
+# Дополнительные методы для работы с новыми файлами
 import json
 import xml.etree.ElementTree as ET
 
 
 class AdvancedFileWorker:
-    """Класс для работы с файлами JSON и XML."""
+    """Расширенный работник с файлами - для новых структур"""
 
     @staticmethod
     def create_complex_json():
-        """Создание сложного JSON файла."""
+        """Создание сложного JSON файла"""
         data = {
-            "book_store": {
-                "name": "Интернет-магазин цифровых книг",
-                "version": "1.0",
-                "creation_date": "2024",
-                "books": [
+            "магазин_книг": {
+                "название": "Интернет-магазин цифровых книг",
+                "версия": "1.0",
+                "дата_создания": "2024",
+                "книги": [
                     {
-                        "book_id": 101,
-                        "title": "Война и мир",
-                        "author": {
-                            "author_id": 1,
-                            "name": "Толстой Л.Н.",
-                            "bio": "Великий русский писатель"
+                        "ид_книги": 101,
+                        "название": "Война и мир",
+                        "автор": {
+                            "ид_автора": 1,
+                            "имя": "Толстой Л.Н.",
+                            "биография": "Великий русский писатель"
                         },
-                        "price": 299.99,
-                        "currency": "руб",
-                        "format": "PDF",
-                        "size_mb": 15,
-                        "rating": 4.8
+                        "цена": 299.99,
+                        "валюта": "руб",
+                        "формат": "PDF",
+                        "размер_мб": 15,
+                        "рейтинг": 4.8
                     },
                     {
-                        "book_id": 102,
-                        "title": "Евгений Онегин",
-                        "author": {
-                            "author_id": 2,
-                            "name": "Пушкин А.С.",
-                            "bio": "Великий русский поэт"
+                        "ид_книги": 102,
+                        "название": "Евгений Онегин",
+                        "автор": {
+                            "ид_автора": 2,
+                            "имя": "Пушкин А.S.",
+                            "биография": "Великий русский поэт"
                         },
-                        "price": 199.5,
-                        "currency": "руб",
-                        "format": "EPUB",
-                        "size_mb": 3,
-                        "rating": 4.9
+                        "цена": 199.5,
+                        "валюта": "руб",
+                        "формат": "EPUB",
+                        "размер_мб": 3,
+                        "рейтинг": 4.9
                     }
                 ],
-                "customers": [
+                "клиенты": [
                     {
-                        "customer_id": 1,
-                        "name": "Иванов Иван",
+                        "ид_клиента": 1,
+                        "имя": "Иванов Иван",
                         "email": "ivanov@mail.ru",
-                        "registration_date": "2024-01-15"
+                        "дата_регистрации": "2024-01-15"
                     }
                 ]
             }
         }
 
         try:
-            with open("complex_books.json", "w", encoding="utf-8") as file:
-                json.dump(data, file, ensure_ascii=False, indent=2)
+            with open("complex_books.json", "w") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
             print("Создали сложный JSON файл: complex_books.json")
-        except (IOError, TypeError) as error:
-            print(f"Ошибка при создании JSON: {error}")
+        except Exception as e:
+            print("Ошибка при создании JSON: {0}".format(e))
 
     @staticmethod
     def read_complex_json():
-        """Чтение сложного JSON файла."""
+        """Чтение сложного JSON файла"""
         try:
-            with open("complex_books.json", "r", encoding="utf-8") as file:
-                data = json.load(file)
+            with open("complex_books.json", "r") as f:
+                data = json.load(f)
 
             print("\n=== ЧТЕНИЕ СЛОЖНОГО JSON ===")
-            shop_info = data["book_store"]
-            print(f"Магазин: {shop_info['name']}")
-            print(f"Книг в каталоге: {len(shop_info['books'])}")
+            shop_info = data["магазин_книг"]
+            print("Магазин: {0}".format(shop_info['название']))
+            print("Книг в каталоге: {0}".format(len(shop_info['книги'])))
 
-            for book in shop_info["books"]:
-                print(f"  - {book['title']} ({book['price']} {book['currency']})")
+            for book in shop_info["книги"]:
+                print("  - {0} ({1} {2})".format(book['название'], book['цена'], book['валюта']))
 
             return data
 
-        except FileNotFoundError:
+        except IOError:
             print("Файл complex_books.json не найден!")
             return None
-        except (json.JSONDecodeError, KeyError) as error:
-            print(f"Ошибка чтения JSON: {error}")
+        except Exception as e:
+            print("Ошибка чтения JSON: {0}".format(e))
             return None
 
     @staticmethod
     def create_complex_xml():
-        """Создание сложного XML файла."""
-        root = ET.Element("digital_library")
-        root.set("version", "1.0")
-        root.set("creation_date", "2024")
+        """Создание сложного XML файла"""
+        # Корневой элемент
+        root = ET.Element("библиотека_цифровых_книг")
+        root.set("версия", "1.0")
+        root.set("дата_создания", "2024")
 
-        shop_info = ET.SubElement(root, "shop_info")
-        ET.SubElement(shop_info, "name").text = "Магазин цифровых книг"
-        ET.SubElement(shop_info, "website").text = "www.books.ru"
-        ET.SubElement(shop_info, "phone").text = "8-800-123-45-67"
+        # Информация о магазине
+        shop_info = ET.SubElement(root, "информация_о_магазине")
+        ET.SubElement(shop_info, "название").text = "Магазин цифровых книг"
+        ET.SubElement(shop_info, "адрес_сайта").text = "www.books.ru"
+        ET.SubElement(shop_info, "телефон").text = "8-800-123-45-67"
 
-        authors = ET.SubElement(root, "authors")
-        author1 = ET.SubElement(authors, "author")
-        ET.SubElement(author1, "id").text = "1"
-        ET.SubElement(author1, "name").text = "Толстой Л.Н."
-        ET.SubElement(author1, "country").text = "Россия"
+        # Авторы
+        authors = ET.SubElement(root, "авторы")
 
-        author2 = ET.SubElement(authors, "author")
-        ET.SubElement(author2, "id").text = "2"
-        ET.SubElement(author2, "name").text = "Пушкин А.С."
-        ET.SubElement(author2, "country").text = "Россия"
+        author1 = ET.SubElement(authors, "автор")
+        ET.SubElement(author1, "ид").text = "1"
+        ET.SubElement(author1, "имя").text = "Толстой Л.Н."
+        ET.SubElement(author1, "страна").text = "Россия"
 
-        catalog = ET.SubElement(root, "book_catalog")
-        book1 = ET.SubElement(catalog, "book")
-        book1.set("category", "classic")
-        ET.SubElement(book1, "id").text = "101"
-        ET.SubElement(book1, "title").text = "Война и мир"
-        ET.SubElement(book1, "author_id").text = "1"
-        ET.SubElement(book1, "price").text = "299.99"
-        ET.SubElement(book1, "rating").text = "4.8"
+        author2 = ET.SubElement(authors, "автор")
+        ET.SubElement(author2, "ид").text = "2"
+        ET.SubElement(author2, "имя").text = "Пушкин А.С."
+        ET.SubElement(author2, "страна").text = "Россия"
 
-        book2 = ET.SubElement(catalog, "book")
-        book2.set("category", "poetry")
-        ET.SubElement(book2, "id").text = "102"
-        ET.SubElement(book2, "title").text = "Евгений Онегин"
-        ET.SubElement(book2, "author_id").text = "2"
-        ET.SubElement(book2, "price").text = "199.50"
-        ET.SubElement(book2, "rating").text = "4.9"
+        # Книги
+        catalog = ET.SubElement(root, "каталог_книг")
 
+        book1 = ET.SubElement(catalog, "книга")
+        book1.set("категория", "классика")
+        ET.SubElement(book1, "ид").text = "101"
+        ET.SubElement(book1, "название").text = "Война и мир"
+        ET.SubElement(book1, "ид_автора").text = "1"
+        ET.SubElement(book1, "цена").text = "299.99"
+        ET.SubElement(book1, "рейтинг").text = "4.8"
+
+        book2 = ET.SubElement(catalog, "книга")
+        book2.set("категория", "поэзия")
+        ET.SubElement(book2, "ид").text = "102"
+        ET.SubElement(book2, "название").text = "Евгений Онегин"
+        ET.SubElement(book2, "ид_автора").text = "2"
+        ET.SubElement(book2, "цена").text = "199.50"
+        ET.SubElement(book2, "рейтинг").text = "4.9"
+
+        # Сохраняем XML
         tree = ET.ElementTree(root)
         tree.write("complex_books.xml", encoding="utf-8", xml_declaration=True)
         print("Создали сложный XML файл: complex_books.xml")
 
     @staticmethod
     def read_complex_xml():
-        """Чтение сложного XML файла."""
+        """Чтение сложного XML файла"""
         try:
             tree = ET.parse("complex_books.xml")
             root = tree.getroot()
 
             print("\n=== ЧТЕНИЕ СЛОЖНОГО XML ===")
-            print(f"Версия: {root.get('version')}")
+            print("Версия: {0}".format(root.get('версия')))
 
-            shop_info = root.find("shop_info")
+            # Читаем информацию о магазине
+            shop_info = root.find("информация_о_магазине")
             if shop_info is not None:
-                name = shop_info.find("name").text
-                print(f"Магазин: {name}")
+                name = shop_info.find("название").text
+                print("Магазин: {0}".format(name))
 
-            catalog = root.find("book_catalog")
+            # Читаем книги
+            catalog = root.find("каталог_книг")
             if catalog is not None:
-                books = catalog.findall("book")
-                print(f"Найдено книг: {len(books)}")
+                books = catalog.findall("книга")
+                print("Найдено книг: {0}".format(len(books)))
 
                 for book in books:
-                    book_id = book.find("id").text
-                    title = book.find("title").text
-                    price = book.find("price").text
-                    print(f"  - {title} (ID: {book_id}, цена: {price})")
+                    book_id = book.find("ид").text
+                    title = book.find("название").text
+                    price = book.find("цена").text
+                    print("  - {0} (ID: {1}, цена: {2})".format(title, book_id, price))
 
             return root
 
-        except FileNotFoundError:
+        except IOError:
             print("Файл complex_books.xml не найден!")
             return None
-        except ET.ParseError as error:
-            print(f"Ошибка чтения XML: {error}")
+        except Exception as e:
+            print("Ошибка чтения XML: {0}".format(e))
             return None
