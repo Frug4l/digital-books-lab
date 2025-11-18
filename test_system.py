@@ -3,7 +3,8 @@ from file_work import AdvancedFileWorker
 
 
 def main():
-    print("=== ДЕМОНСТРАЦИЯ РАБОТЫ С ФАЙЛАМИ ===\n")
+    """Основная функция демонстрации"""
+    print("=== ДЕМОНСТРАЦИЯ РАБОТЫ С ФАЙЛАМИ ===")
 
     # Создаем сложные файлы
     print("1. СОЗДАЕМ ФАЙЛЫ:")
@@ -19,7 +20,7 @@ def main():
     if json_data:
         books_count = len(json_data["магазин_книг"]["книги"])
         clients_count = len(json_data["магазин_книг"]["клиенты"])
-        print(f"JSON: {books_count} книг, {clients_count} клиентов")
+        print("JSON: {0} книг, {1} клиентов".format(books_count, clients_count))
 
     print("XML: проверьте файл complex_books.xml вручную")
 
